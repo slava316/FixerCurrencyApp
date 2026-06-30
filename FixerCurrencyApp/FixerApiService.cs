@@ -26,5 +26,16 @@ namespace FixerCurrencyApp
             string json = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<FixerResponse>(json);
         }
+
+        public async Task<FixerResponse> GetHistoricalRatesAsync(string date)
+        {
+            // Формат даты строго YYYY-MM-DD
+            string url = $"{BaseUrl}{date}?access_key={_apiKey}";
+            var response = await _httpClient.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+
+            string json = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<FixerResponse>(json);
+        }
     }
 }
