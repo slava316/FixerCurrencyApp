@@ -65,5 +65,43 @@ namespace FixerCurrencyApp
                 MessageBox.Show("Введите корректное число", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
+        private async void btnGetHistory_Click(object sender, EventArgs e)
+        {
+            if (_apiService == null)
+            {
+                MessageBox.Show("Сначала введите API ключ и инициализируйте сервис!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string formattedDate = dtpHistoryDate.Value.ToString("yyyy-MM-dd");
+
+            try
+            {
+                var historicalData = await _apiService.GetHistoricalRatesAsync(formattedDate);
+                if (historicalData.Success)
+                {
+                    lstHistoryResult.Items.Clear();
+                    lstHistoryResult.Items.Add($"--- Курсы на {formattedDate} (База: EUR) ---");
+
+                    string[] basicCurrencies = { "USD", "RUB", "GBP", "JPY", "CNY" };
+                    foreach (var code in basicCurrencies)
+                    {
+                        if (historicalData.Rates.ContainsKey(code))
+                        {
+                            lstHistoryResult.Items.Add($"1 EUR = {historicalData.Rates[code]:F2} {code}");
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show($"Ошибка: {historicalData.Error.Info}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка запроса истории: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
