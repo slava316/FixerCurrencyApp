@@ -129,6 +129,7 @@
             btnGetHistory.TabIndex = 9;
             btnGetHistory.Text = "Курс на дату";
             btnGetHistory.UseVisualStyleBackColor = true;
+            btnGetHistory.Click += btnGetHistory_Click;
             // 
             // lstHistoryResult
             // 
