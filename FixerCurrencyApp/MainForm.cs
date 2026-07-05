@@ -1,16 +1,36 @@
 using System;
 using System.Windows.Forms;
+using System.IO;
 
 namespace FixerCurrencyApp
 {
     public partial class MainForm : Form
     {
+        private const string ApiKeyFileName = "apikey.txt";
+
         private FixerApiService _apiService;
         private FixerResponse _latestData;
 
         public MainForm()
         {
             InitializeComponent();
+            LoadApiKeyFromFile();
+        }
+
+        private void LoadApiKeyFromFile()
+        {
+            try
+            {
+                if (File.Exists(ApiKeyFileName))
+                {
+                    string secretKey = File.ReadAllText(ApiKeyFileName).Trim();
+                    txtApiKey.Text = secretKey;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось прочитать файл API-ключа: {ex.Message}", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private async void btnLoadData_Click(object sender, EventArgs e)

@@ -45,6 +45,7 @@
             // 
             txtApiKey.Location = new Point(65, 27);
             txtApiKey.Name = "txtApiKey";
+            txtApiKey.PasswordChar = '*';
             txtApiKey.Size = new Size(240, 23);
             txtApiKey.TabIndex = 0;
             // 
