@@ -26,6 +26,13 @@ namespace FixerCurrencyApp
                     string secretKey = File.ReadAllText(ApiKeyFileName).Trim();
                     txtApiKey.Text = secretKey;
                 }
+                else
+                {
+                    MessageBox.Show("Файл конфигурации apikey.txt не найден.\n\nПожалуйста, введите ваш персональный API-ключ от сервиса Fixer.io вручную в текстовое поле.",
+                                    "Инструкция",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information);
+                }
             }
             catch (Exception ex)
             {
